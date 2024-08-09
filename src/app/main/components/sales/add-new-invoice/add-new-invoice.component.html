@@ -1,0 +1,136 @@
+<section class="dark:bg-gray-900">
+  <div class="max-w-7xl py-1 mx-auto lg:py-2">
+    <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Añadir nueva factura</h2>
+  </div>
+
+  <section class="bg-white h-screen m-2 rounded-xl">
+    <form [formGroup]="invoiceForm" (ngSubmit)="onSubmit()">
+      <div class="grid gap-4 p-5 mb-4">
+        <div class="col-span-4 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <div >
+            <label for="contact" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contacto</label>
+            <select id="contact" formControlName="contact" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-black focus:border-black block w-full py-2.5">
+              <option value="" disabled selected>Selecciona un contacto</option>
+              <option *ngFor="let contact of contacts" [value]="contact._id">{{contact.name}}</option>
+            </select>
+          </div>
+          <div>
+            <label for="invoiceNumber" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nº de documento</label>
+            <input type="text" id="invoiceNumber" formControlName="invoiceNumber" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-black focus:border-black block w-full py-2.5" placeholder="Número de factura" required />
+          </div>
+          <div>
+            <label for="date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fecha de factura</label>
+            <input type="date" id="date" formControlName="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-black focus:border-black block w-full py-2.5" required />
+          </div>
+          <div>
+            <label for="expiration" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Expiración</label>
+            <select id="expiration" formControlName="expiration" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-black focus:border-black block w-full py-2.5">
+              <option selected>Plazo de expiración</option>
+              <option value="15">15 días</option>
+              <option value="30">30 días</option>
+              <option value="45">45 días</option>
+              <option value="60">60 días</option>
+              <option value="90">90 días</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="relative overflow-x-auto">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" class="py-3 px-4">CONCEPTO</th>
+              <th scope="col" class="py-3 px-4">DESCRIPCIÓN</th>
+              <th scope="col" class="py-3 px-4">CANTIDAD</th>
+              <th scope="col" class="py-3 px-4">PRECIO</th>
+              <th scope="col" class="py-3 px-4">IMPUESTOS</th>
+              <th scope="col" class="py-3 px-4">TOTAL</th>
+              <th scope="col" class="py-3 px-2 w-10 text-center"></th>
+            </tr>
+          </thead>
+          <tbody formArrayName="concepts">
+            <tr *ngFor="let concept of concepts.controls; let i = index" [formGroupName]="i" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              <td class="py-4 px-4">
+                <input type="text" formControlName="concept" class="bg-gray-50 text-gray-900 text-sm rounded-lg w-full" placeholder="Concepto" required />
+              </td>
+              <td class="py-4 px-4">
+                <input type="text" formControlName="description" class="bg-gray-50 text-gray-900 text-sm rounded-lg w-full" placeholder="Descripción" required />
+              </td>
+              <td class="py-4 px-4">
+                <input type="number" formControlName="units" class="bg-gray-50 text-gray-900 text-sm rounded-lg w-full" placeholder="Cantidad" required />
+              </td>
+              <td class="py-4 px-4">
+                <input type="number" formControlName="amount" class="bg-gray-50 text-gray-900 text-sm rounded-lg w-full" placeholder="Precio" required />
+              </td>
+              <td class="py-4 px-4">
+              <select formControlName="taxes" id="taxes" class="bg-gray-50 text-gray-900 text-sm rounded-lg w-full">
+                 <option selected>Impuestos</option>
+                 <option *ngFor="let tax of invoiceManagementService.taxes$ | async " value="US">{{tax.name.replace('_',' ')}}%</option>
+
+              </select>
+
+              </td>
+              <td class="py-4 px-4">
+                <input type="number" formControlName="total" class="bg-gray-50 text-gray-900 text-sm rounded-lg w-full" placeholder="Total" required />
+              </td>
+              <td class="py-4 px-2 w-10 text-center">
+                <button type="button" (click)="removeConcept(i)" class="text-red-600 hover:text-red-900">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="7" class="py-4 px-4 text-center">
+                <button type="button" (click)="addConcept()" class="text-black hover:text-gray-700">Añadir fila</button>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <div class="text-center mt-4">
+        <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-lg">Guardar Factura</button>
+      </div>
+    </form>
+    <div *ngFor="let item of contacts">{{item.name}}
+
+    </div>
+    <pre>{{invoiceForm.value | json}}</pre>
+  </section>
+
+
+  <button id="dropdownCheckboxButton" data-dropdown-toggle="dropdownDefaultCheckbox" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">Dropdown checkbox <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+    </svg>
+    </button>
+
+    <!-- Dropdown menu -->
+    <div id="dropdownDefaultCheckbox" class="z-10 hidden w-48 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
+        <ul class="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownCheckboxButton">
+          <li>
+            <div class="flex items-center">
+              <input id="checkbox-item-1" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+              <label for="checkbox-item-1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Default checkbox</label>
+            </div>
+          </li>
+          <li>
+            <div class="flex items-center">
+                <input checked id="checkbox-item-2" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                <label for="checkbox-item-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Checked state</label>
+              </div>
+          </li>
+          <li>
+            <div class="flex items-center">
+              <input id="checkbox-item-3" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+              <label for="checkbox-item-3" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Default checkbox</label>
+            </div>
+          </li>
+        </ul>
+    </div>
+
+</section>

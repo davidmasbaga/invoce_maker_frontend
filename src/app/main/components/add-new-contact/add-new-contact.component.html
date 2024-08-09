@@ -1,0 +1,274 @@
+<section class="dark:bg-gray-900">
+
+  <div class="max-w-7xl py-1 mx-auto lg:py-2">
+    <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">
+      {{ isEditMode ? "Editar Contacto" : "Añadir Nuevo Contacto" }}
+    </h2>
+    <form [formGroup]="contactForm">
+
+      <div class="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
+
+        <div class="col-span-4 grid grid-cols-2 gap-4">
+
+
+
+          <div class="">
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white ">Categoría del contacto</label>
+            <div class="flex justify-around rounded-lg border border-gray-100 bg-gray-100 ">
+              <label class="inline-flex items-center justify-center w-full gap-2 px-4 py-2 text-sm cursor-pointer" [ngClass]="{
+                'bg-black rounded-xl text-white': contactForm.get('contactCategory')?.value === 'person',
+                ' text-sm text-gray-500 hover:text-gray-700 focus:relative ': contactForm.get('contactCategory')?.value !== 'person'
+              }">
+
+                <input type="radio" formControlName="contactCategory" value="person" class="hidden " />
+                <mat-icon>person</mat-icon>
+                Persona
+              </label>
+              <label class="inline-flex items-center justify-center w-full gap-2 px-4 py-2 text-sm cursor-pointer" [ngClass]="{
+                   'bg-black rounded-xl text-white': contactForm.get('contactCategory')?.value === 'company' ,
+                   ' text-sm text-gray-500 hover:text-gray-700 focus:relative': contactForm.get('contactCategory')?.value !== 'company'
+                         }">
+                <input type="radio" formControlName="contactCategory" value="company" class="hidden" />
+                <mat-icon>apartment</mat-icon>
+                Empresa
+              </label>
+            </div>
+            <div *ngIf="contactForm.get('contactCategory')?.invalid && contactForm.get('contactCategory')?.touched">
+              <span class="text-red-600 text-xs">Categoría del contacto es requerida</span>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+
+
+
+      <div class="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
+
+        <div class="col-span-1">
+          <label for="contactType" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            Tipo de Contacto<span class="text-gray-700 ml-1">*</span>
+          </label>
+
+
+
+          <select id="contactType" formControlName="contactType" [ngClass]="inputClass">
+            <option value="client" selected>Cliente</option>
+            <option value="vendor">Proveedor</option>
+          </select>
+          <div *ngIf="
+              contactForm.get('contactType')?.invalid &&
+              contactForm.get('contactType')?.touched
+            ">
+            <span class="text-red-600 text-xs">Tipo de Contacto es requerido</span>
+          </div>
+        </div>
+
+
+          <div class="w-full col-span-2">
+            <label for="nombre" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{isPerson ? 'Nombre Completo' : 'Nombre de la empresa o sociedad' }}<span
+                class="text-gray-700 ml-1">*</span></label>
+
+            <input type="text" id="nombre" formControlName="nombre" [ngClass]="inputClass" placeholder="Juan" required />
+            <div *ngIf="
+                contactForm.get('nombre')?.invalid &&
+                contactForm.get('nombre')?.touched
+              ">
+              <span class="text-red-600 text-xs">Nombre es requerido</span>
+            </div>
+          </div>
+
+
+
+
+
+
+
+        <div>
+          <label for="typeDoc" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tipo de
+            Documento<span class="text-gray-700 ml-1">*</span></label>
+          <select id="typeDoc" formControlName="typeDoc" [ngClass]="inputClass">
+            <option *ngIf="isPerson" value="NIF">NIF</option>
+            <option *ngIf="!isPerson" value="CIF">CIF</option>
+          </select>
+          <div *ngIf="
+              contactForm.get('typeDoc')?.invalid &&
+              contactForm.get('typeDoc')?.touched
+            ">
+            <span class="text-red-600 text-xs">Tipo de documento es requerido</span>
+          </div>
+        </div>
+
+
+        <div class="w-full">
+          <label for="fiscal" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{isPerson ? 'Nº de Documento del contacto':'Nº de CIF de la empresa o sociedad'}}<span
+              class="text-gray-700 ml-1">*</span></label>
+          <input type="text" id="fiscal" formControlName="fiscal" [ngClass]="inputClass" placeholder="46364243S"
+            required />
+          <div *ngIf="
+              contactForm.get('fiscal')?.invalid &&
+              contactForm.get('fiscal')?.touched
+            ">
+            <span class="text-red-600 text-xs">Número de documento es requerido</span>
+          </div>
+        </div>
+        <div class="w-full">
+          <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email<span
+              class="text-gray-700 ml-1">*</span></label>
+          <input type="email" id="email" formControlName="email" [ngClass]="inputClass" placeholder="garrom@gmail.com"
+            required />
+          <div *ngIf="
+              contactForm.get('email')?.invalid &&
+              contactForm.get('email')?.touched
+            ">
+            <span class="text-red-600 text-xs" *ngIf="contactForm.get('email')?.errors?.['invalidEmail']">El email debe
+              ser válido</span>
+            <span class="text-red-600 text-xs" *ngIf="contactForm.get('email')?.errors?.['required']">Email es
+              requerido</span>
+          </div>
+        </div>
+        <div class="w-full">
+          <label for="telefono" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Teléfono</label>
+          <input type="text" id="telefono" formControlName="telefono" [ngClass]="inputClass"
+            placeholder="+34 659 477 691" required />
+          <div *ngIf="
+              contactForm.get('telefono')?.invalid &&
+              contactForm.get('telefono')?.touched
+            ">
+            <span class="text-red-600 text-xs">Teléfono es requerido</span>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="font-bold my-7">Dirección</h2>
+
+      <div class="grid gap-2 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
+        <div class="w-full">
+          <label for="calle" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Calle<span
+              class="text-gray-700 ml-1">*</span></label>
+          <input type="text" id="calle" formControlName="calle" [ngClass]="inputClass" placeholder="Calle del contable"
+            required />
+          <div *ngIf="
+              contactForm.get('calle')?.invalid &&
+              contactForm.get('calle')?.touched
+            ">
+            <span class="text-red-600 text-xs">Calle es requerida</span>
+          </div>
+        </div>
+
+        <div class="grid gap-4 mb-3 sm:grid-cols-4 sm:gap-6 sm:mb-3">
+          <div class="w-full col-span-1">
+            <label for="numero" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Número<span
+                class="text-gray-700 ml-1">*</span></label>
+            <input type="text" id="numero" formControlName="numero" [ngClass]="inputClass" placeholder="25" required />
+            <div *ngIf="
+                contactForm.get('numero')?.invalid &&
+                contactForm.get('numero')?.touched
+              ">
+              <span class="text-red-600 text-xs">Número es requerido</span>
+            </div>
+          </div>
+          <div class="w-full col-span-1">
+            <label for="escalera" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Escalera</label>
+            <input type="text" id="escalera" formControlName="escalera" [ngClass]="inputClass" placeholder="A" />
+          </div>
+
+          <div class="w-full sm:col-span-1">
+            <label for="piso" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Piso</label>
+            <input type="text" id="piso" formControlName="piso" [ngClass]="inputClass" placeholder="4" />
+            <div *ngIf="
+                contactForm.get('piso')?.invalid &&
+                contactForm.get('piso')?.touched
+              ">
+              <span class="text-red-600 text-xs">Piso es requerido</span>
+            </div>
+          </div>
+          <div class="w-full sm:col-span-1">
+            <label for="puerta" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Puerta</label>
+            <input type="text" id="puerta" formControlName="puerta" [ngClass]="inputClass" placeholder="3" />
+            <div *ngIf="
+                contactForm.get('puerta')?.invalid &&
+                contactForm.get('puerta')?.touched
+              ">
+              <span class="text-red-600 text-xs">Puerta es requerida</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid gap-2 mb-2 sm:grid-cols-4 sm:gap-6 sm:mb-6">
+        <div class="w-full">
+          <label for="cp" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">CP<span
+              class="text-gray-700 ml-1">*</span></label>
+          <input type="text" id="cp" formControlName="cp" [ngClass]="inputClass" placeholder="08048" required />
+          <div *ngIf="
+              contactForm.get('cp')?.invalid && contactForm.get('cp')?.touched
+            ">
+            <span class="text-red-600 text-xs">CP es requerido</span>
+          </div>
+        </div>
+        <div class="w-full">
+          <label for="ciudad" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ciudad<span
+              class="text-gray-700 ml-1">*</span></label>
+          <input type="text" id="ciudad" formControlName="ciudad" [ngClass]="inputClass" placeholder="Barcelona"
+            required />
+          <div *ngIf="
+              contactForm.get('ciudad')?.invalid &&
+              contactForm.get('ciudad')?.touched
+            ">
+            <span class="text-red-600 text-xs">Ciudad es requerida</span>
+          </div>
+        </div>
+        <div class="w-full">
+          <label for="provincia" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Provincia</label>
+          <input type="text" id="provincia" formControlName="provincia" [ngClass]="inputClass" placeholder="Barcelona"
+            required />
+          <div *ngIf="
+              contactForm.get('provincia')?.invalid &&
+              contactForm.get('provincia')?.touched
+            ">
+            <span class="text-red-600 text-xs">Provincia es requerida</span>
+          </div>
+        </div>
+        <div class="w-full">
+          <label for="pais" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">País<span
+              class="text-gray-700 ml-1">*</span></label>
+          <input type="text" id="pais" formControlName="pais" [ngClass]="inputClass" placeholder="España" required />
+          <div *ngIf="
+              contactForm.get('pais')?.invalid &&
+              contactForm.get('pais')?.touched
+            ">
+            <span class="text-red-600 text-xs">País es requerido</span>
+          </div>
+        </div>
+      </div>
+
+      <section class="flex justify-end py-7">
+        <div *ngIf="!isEditMode">
+          <app-cta-button *ngIf="status !== 'loading'" type="button" icon="save" link="/inicio/add-contact"
+            title="Guardar" tooltip="Añade un nuevo contacto" (click)="onAddSubmit()"></app-cta-button>
+          <app-cta-button *ngIf="status === 'loading'" category="loading" title="Añadiendo Contacto"></app-cta-button>
+        </div>
+        <div *ngIf="isEditMode">
+          <div class="flex flex-row gap-2">
+            <app-cta-button *ngIf="status !== 'loading'" category="secondary" type="button" icon="arrow_back"
+              link="/inicio/contacts" title="Volver al listado" tooltip="Volver al listado"></app-cta-button>
+            <app-cta-button *ngIf="status !== 'loading'" size="large" type="button" icon="save" [link]="currentUrl"
+              title="Guardar cambios" tooltip="Añade un nuevo contacto" (click)="onEditSubmit()"></app-cta-button>
+          </div>
+          <app-cta-button *ngIf="status === 'loading'" category="loading" title="Añadiendo Contacto"></app-cta-button>
+        </div>
+      </section>
+
+    </form>
+  </div>
+
+
+
+
+
+
+
+  <!-- <pre>{{contactForm.value | json}}</pre> -->
+</section>
