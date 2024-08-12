@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { environment } from '../../enviroments/enviroments';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,44 +13,48 @@ export class InvoiceDataServiceService {
   concepts$ = this.conceptsSubject.asObservable();
 
 
-  constructor( public http: HttpClient, ) {
+  constructor( public http: HttpClient,
+    private authService: AuthService) {
 
   }
+
+  public user = this.authService.currentUser()
 
   getTaxes():Observable<any[]>{
-    return this.http.get<any[]>('http://localhost:3000/taxes');
+    return this.http.get<any[]>(`${environment.baseUrl}taxes`);
   }
 
 
 
+  createDraftInvoice(): Observable<{ invoiceId: string }> {
+    return this.http.post<{ invoiceId: string }>(`${environment.baseUrl}invoices/create-draft/${this.user?.id}`, {});
+  }
 
-  // addConcept(concept: any) {
-  //   const currentConcepts = this.conceptsSubject.getValue();
-  //   this.conceptsSubject.next([...currentConcepts, concept]);
-  // }
-
-  // updateConcept(index: number, concept: any) {
-  //   const currentConcepts = this.conceptsSubject.getValue();
-  //   currentConcepts[index] = concept;
-  //   this.conceptsSubject.next([...currentConcepts]);
-  // }
-
-  // removeConcept(index: number) {
-  //   const currentConcepts = this.conceptsSubject.getValue();
-  //   currentConcepts.splice(index, 1);
-  //   this.conceptsSubject.next([...currentConcepts]);
-  // }
-
-  // getConcepts() {
-  //   return this.conceptsSubject.getValue();
-  // }
-
-  // clearConcepts() {
-  //   this.conceptsSubject.next([]);
-  // }
+  finalizeInvoice(invoiceId: string, invoiceData: any): Observable<{ invoiceId: string }> {
+    if (!this.user?.id) {
+      console.error('User ID is missing');
+    }
 
 
+    return this.http.put<{ invoiceId: string }>(
+      `${environment.baseUrl}invoices/finalize/${this.user?.id}/${invoiceId}`,
+      invoiceData
+    );
+  }
 
 
+  getInvoiceById(invoiceId: string): Observable<any> {
+    return this.http.get<any>(`${environment.baseUrl}invoices/${this.user?.id}/${invoiceId}`);
+  }
+
+
+  getAllInvoices(): Observable<any[]> {
+    return this.http.get<any[]>(`${environment.baseUrl}invoices/${this.user?.id}`);
+  }
+
+
+  deleteInvoice(invoiceId: string): Observable<any> {
+    return this.http.delete<any>(`${environment.baseUrl}invoices/delete/${this.user?.id}/${invoiceId}`);
+  }
 
 }

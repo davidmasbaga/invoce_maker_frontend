@@ -8,6 +8,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthModule } from './auth/auth.module';
 import { SalesModule } from './main/components/sales/sales.module';
+import { PipesModule } from './utils/pipes/pipes.module';
+
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { SalesModule } from './main/components/sales/sales.module';
     ReactiveFormsModule,
     AuthModule,
     HttpClientModule,
-    SalesModule
+    SalesModule,
+    PipesModule
+
 
   ],
   providers: [ provideHttpClient(withInterceptorsFromDi()), provideAnimationsAsync()],

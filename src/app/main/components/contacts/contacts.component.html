@@ -43,36 +43,36 @@
                   </thead>
                   <tbody>
 
-                      <tr *ngFor="let contact of contacts" class=" border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
+                      <tr *ngFor="let contact of contacts" class=" border-b py-10 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
                           <!-- <td class="w-4 px-4 py-5">
                               <div class="flex items-center">
                                   <input id="checkbox-table-search-1" type="checkbox" onclick="event.stopPropagation()" class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                   <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
                               </div>
                           </td> -->
-                          <th scope="row" class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                          <th scope="row" class="px-4 py-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                            {{contact.name}}
                           </th>
-                          <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                          <td class="px-4 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                               <span>{{contact.fiscal.number}}</span>
                           </td>
-                          <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                          <td class="px-4 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{contact.email}}
                           </td>
-                          <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"> {{contact.phoneNumber}}</td>
-                          <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{contact.address.street}} {{contact.address.number}}</td>
-                          <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{contact.address.city}}</td>
+                          <td class="px-4 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"> {{contact.phoneNumber}}</td>
+                          <td class="px-4 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{contact.address.street}} {{contact.address.number}}</td>
+                          <td class="px-4 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{contact.address.city}}</td>
 
-                          <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                          <td class="px-4 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
 
                             <span [ngClass]="contact.contactType === 'client' ? 'bg-white text-black border-black border text-xs font-medium me-2 px-2.5 py-0.5 rounded-full ' : 'bg-black text-white text-xs font-medium me-2 px-2.5 py-0.5 rounded-full'">{{contact.contactType === 'client' ? 'Client' : 'Vendor' }}</span>
                           </td>
-                          <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                          <td class="px-4 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{contact.contactCategory === 'person' ? 'Persona': 'Empresa' }}
                             <!-- <span [ngClass]="contact.contacCategory === 'client' ? 'bg-white text-black border-black border text-xs font-medium me-2 px-2.5 py-0.5 rounded-full ' : 'bg-black text-white text-xs font-medium me-2 px-2.5 py-0.5 rounded-full'">{{contact.contactType === 'client' ? 'Client' : 'Vendor' }}</span> -->
                           </td>
-                          <td class="px-4 py-2"></td>
-                          <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                          <td class="px-4 py-4"></td>
+                          <td class="px-4 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
 
                             <div class="flex gap-3">
                               <!-- <mat-icon [ngClass]="'text-primary-700 hover:text-gray-600cursor-pointer'  ">visibility</mat-icon> -->

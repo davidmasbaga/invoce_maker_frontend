@@ -1,19 +1,15 @@
-<!-- LOGO -->
-
 <aside id="default-sidebar"
   class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
   aria-label="Sidenav">
   <div class="overflow-y-auto px-3 h-full bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700">
 
-    <section id=logo class=" flex flex-col justify-center items-center  mt-10 mb-12">
-    <img src="/assets/images/logo.png" alt="logo"
-      class="w-16 mx-auto my-3"/>
-      <span class="font-medium" >Kwhale Invoice</span>
-</section>
+    <section id="logo" class="flex flex-col justify-center items-center mt-10 mb-12">
+      <img src="/assets/images/logo.png" alt="logo" class="w-16 mx-auto my-3"/>
+      <span class="font-medium">Kwhale Invoice</span>
+    </section>
+
     <!-- MENU SIDE BAR -->
     <ul class="space-y-2">
-
-
       <ng-container *ngFor="let item of menu; let i = index">
         <ng-container *ngIf="item.children; else noExpandMenu">
           <li>
@@ -30,7 +26,7 @@
             </button>
             <ul [attr.id]="item.control + i" class="hidden py-2 space-y-2">
               <li *ngFor="let child of item.children">
-                <a [routerLink]="child.link" [ngClass]="linkLiButtonStyle">{{child.title}}</a>
+                <a (click)="handleClick(child)" [routerLink]="child.link" [ngClass]="linkLiButtonStyle">{{child.title}}</a>
               </li>
             </ul>
           </li>
@@ -38,8 +34,7 @@
         <ng-template #noExpandMenu>
           <li>
             <a [routerLink]="item.link" [ngClass]="mainLiButtonStyle">
-              <mat-icon aria-hidden="false" aria-label="Example home icon"
-                ngClass="text-gray-600">{{item.icon}}</mat-icon>
+              <mat-icon aria-hidden="false" aria-label="Example home icon" ngClass="text-gray-600">{{item.icon}}</mat-icon>
               <span class="ml-3">{{item.title}}</span>
             </a>
           </li>
@@ -47,14 +42,7 @@
       </ng-container>
     </ul>
 
-
-
     <div class="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700"></div>
-
-
-
-
+    <button (click)="generateNewInvoiceId()">hola</button>
   </div>
-
-
 </aside>

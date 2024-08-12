@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FlowbiteService } from '../../services/flowbite.service';
 import { initFlowbite } from 'flowbite';
+import { InvoiceDataServiceService } from '../../services/invoice-data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -53,8 +55,9 @@ export class SidebarComponent implements OnInit {
         {
           title: 'Añadir Factura',
           icon: '',
-          link: '/inicio/sales/invoices/add',
-          active: true
+          link: '',
+          active: true,
+          click: () => this.generateNewInvoiceId()
         },
         {
           title: 'Presupuestos',
@@ -96,7 +99,9 @@ export class SidebarComponent implements OnInit {
   mainLiButtonStyle: string = "flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 ";
   linkLiButtonStyle: string = "flex items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 text-sm";
 
-  constructor(private flowbiteService: FlowbiteService) { }
+  constructor(private flowbiteService: FlowbiteService,
+    private invoiceDataService: InvoiceDataServiceService,
+    private router: Router) { }
 
   ngOnInit(): void {
     initFlowbite();
@@ -110,6 +115,20 @@ export class SidebarComponent implements OnInit {
     if (element) {
       element.classList.toggle('hidden');
       element.classList.toggle('show');
+    }
+  }
+
+  generateNewInvoiceId(): void {
+    this.invoiceDataService.createDraftInvoice().subscribe(res => {
+      console.log(res);
+      // Redirige a la ruta dinámica con el ID
+      this.router.navigate(['/inicio/sales/invoices/add', res.invoiceId]);
+    });
+  }
+
+  handleClick(child: any): void {
+    if (child.click) {
+      child.click(); // Ejecuta la función si existe
     }
   }
 }
