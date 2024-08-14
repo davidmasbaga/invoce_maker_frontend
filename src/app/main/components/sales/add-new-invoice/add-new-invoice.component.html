@@ -1,6 +1,7 @@
 <section class="dark:bg-gray-900">
   <div class="max-w-7xl py-1 mx-auto lg:py-2">
     <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Añadir nueva factura</h2>
+
   </div>
 
   <section *ngIf="contacts; else emptyList" class="bg-white h-screen m-2 rounded-xl">
@@ -63,11 +64,12 @@
               class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 p-3">
               <td class="py-4 px-4">
                 <input type="text"  matInput formControlName="concept" class="bg-gray-50 text-gray-900 text-sm rounded-lg w-full"
-                  placeholder="Concepto" required />
+                  placeholder="Concepto" required/>
               </td>
+
               <td class="py-4 px-4">
                 <input type="text" matInput formControlName="description"
-                  class="bg-gray-50 text-gray-900 text-sm rounded-lg w-full " placeholder="Descripción" required />
+                  class="bg-gray-50 text-gray-900 text-sm rounded-lg w-full " placeholder="Descripción"/>
               </td>
               <td class="py-4 px-4">
                 <input type="number" matInput formControlName="units" class="bg-gray-50 text-gray-900 text-sm rounded-lg w-full "
@@ -92,10 +94,10 @@
                 </div>
               </td>
 
-
               <td class="py-4 px-4">
-                <input type="text" formControlName="total" class="text-xl text-black font-bold bg-transparent border-none focus:outline-none" readonly />
+                <span class="text-lg text-black font-semibold">{{ concept.get('total')?.value | number:'1.2-2' | currency:'EUR'}} </span>
               </td>
+
 
 
 
@@ -105,6 +107,8 @@
                 </button>
               </td>
             </tr>
+
+
           </tbody>
           <tfoot>
             <tr>
@@ -119,26 +123,34 @@
           </tfoot>
         </table>
       </div>
-      <ng-container *ngIf="invoiceManagementService.invoice$ | async as invoice">
-        <section class="flex flex-col justify-end w-3/4">
-          <p class="font-semibold">SUBTOTAL: {{invoice.subtotal | number:'1.2-2'}} €</p>
-          <p *ngIf="invoice.totalTaxes?.iva_21">
-            IVA 21%: {{invoice.totalTaxes.iva_21 | number:'1.2-2'}} €
-          </p>
-          <p *ngIf="invoice.totalTaxes?.irpf_15">
-            IRPF 15%: {{invoice.totalTaxes.irpf_15 | number:'1.2-2'}} €
-          </p>
-          <p class="font-semibold">TOTAL: {{invoice.totalWithTaxes | number:'1.2-2'}} €</p>
-        </section>
-      </ng-container>
 
-      <div class="text-center mt-4">
 
-        <!-- <button type="submit"  (click)="clearLocalStorage()" class="bg-white text-black border-black border-solid py-2 px-4 rounded-lg ms-2">Cancelar</button> -->
+<div class="flex justify-end mt-10">
+  <div class="w-full lg:w-1/3 bg-gray-300 p-5 rounded-xl">
+    <ng-container *ngIf="invoiceTotals">
+      <section class="flex flex-col justify-end">
+        <p class="font-semibold">SUBTOTAL: {{invoiceTotals.subtotal | number:'1.2-2'}} €</p>
+        <p *ngIf="invoiceTotals.totalTaxes?.iva_21">
+          IVA 21%: {{invoiceTotals.totalTaxes.iva_21 | number:'1.2-2'}} €
+        </p>
+        <p *ngIf="invoiceTotals.totalTaxes?.irpf_15">
+          IRPF 15%: {{invoiceTotals.totalTaxes.irpf_15 | number:'1.2-2'}} €
+        </p>
+        <p class="font-semibold">TOTAL: {{invoiceTotals.total | number:'1.2-2'}} €</p>
+      </section>
+    </ng-container>
+  </div>
 
-        <button (click)="onSubmit()" type="submit" class="bg-black text-white py-2 px-4 rounded-lg ms-2">Guardar Factura</button>
-      </div>
+    </div>
+
     </form>
+    <div class="flex justify-end mt-12">
+    <div class="text-center">
+
+      <button type="submit" (click)="deleteInvoice()" class="bg-white text-black border-black border-solid py-2 px-4 rounded-lg ms-2">Cancelar</button>
+      <button (click)="onSubmit()" type="submit" class="bg-black text-white py-2 px-4 rounded-lg ms-2">Guardar Factura</button>
+    </div>
+  </div>
     <!-- <div *ngFor="let item of contacts">{{item.name}}
 
     </div> -->
@@ -147,14 +159,20 @@
         <pre>{{ invoice | json }}</pre>
       </ng-container>
     </ng-container> -->
+   
 
-    <!-- <pre>{{invoiceForm.value | json}}</pre> -->
   </section>
 
 
 
 </section>
 
+
+
+
 <ng-template #emptyList>
   <app-spinner></app-spinner>
 </ng-template>
+
+
+

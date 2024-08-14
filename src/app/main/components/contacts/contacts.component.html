@@ -77,12 +77,12 @@
                             <div class="flex gap-3">
                               <!-- <mat-icon [ngClass]="'text-primary-700 hover:text-gray-600cursor-pointer'  ">visibility</mat-icon> -->
 
-                              <button [routerLink]="['/inicio/edit-contact', contact._id]">
-                              <mat-icon [ngClass]="'text-primary-700  hover:text-gray-600 cursor-pointer'">edit</mat-icon>
+                              <button class="cursor-pointer" [routerLink]="['/inicio/edit-contact', contact._id]">
+                              <mat-icon  class="text-primary-700 hover:text-gray-600 ">edit</mat-icon>
                               </button>
 
 
-                              <button (click)="confirmDeleteContact(contact)">
+                              <button class="cursor-pointer" (click)="confirmDeleteContact(contact)">
                                 <mat-icon [ngClass]="'text-black  hover:text-gray-600 cursor-pointer'">delete</mat-icon>
                               </button>
 

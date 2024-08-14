@@ -17,11 +17,25 @@
     <div class="border-gray-300 rounded-lg h-32 md:h-64">
 
       <div class="flex flex-col  px-6 py-10 overflow-hidden bg-white bg-gradient-to-br rounded-xl shadow-lg ">
-        <mat-icon class="text-black scale-150">people</mat-icon>
+        <mat-icon class="text-black scale-150">payments</mat-icon>
         <h3 class="text-4xl sm:text-5xl xl:text-6xl font-bold text-black mt-12 group-hover:text-gray-50">
-          {{contacts?.length}}</h3>
+          {{totalWithTaxes | currency:'EUR'}}</h3>
         <div class="flex flex-row justify-between text-black group-hover:text-gray-200 mt-2">
-          <p class="font-bold"> Total Contactos</p>
+          <p class="font-bold"> Ingresos totales</p>
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="border-gray-300 rounded-lg h-32 md:h-64">
+
+      <div class="flex flex-col  px-6 py-10 overflow-hidden bg-white bg-gradient-to-br rounded-xl shadow-lg ">
+        <mat-icon class="text-black scale-150">trending_up</mat-icon>
+        <h3 class="text-4xl sm:text-5xl xl:text-6xl font-bold text-black mt-12 group-hover:text-gray-50">
+          {{totalPaid | currency:'EUR'}}</h3>
+        <div class="flex flex-row justify-between text-black group-hover:text-gray-200 mt-2">
+          <p class="font-bold">Total Importe Cobrado</p>
         </div>
       </div>
 
@@ -30,27 +44,16 @@
     <div class="border-gray-300 rounded-lg h-32 md:h-64">
 
       <div class="flex flex-col  px-6 py-10 overflow-hidden bg-white bg-gradient-to-br rounded-xl shadow-lg ">
-        <mat-icon class="text-black scale-150">people</mat-icon>
+        <mat-icon class="text-black scale-150">trending_down</mat-icon>
         <h3 class="text-4xl sm:text-5xl xl:text-6xl font-bold text-black mt-12 group-hover:text-gray-50">
-          {{contacts?.length}}</h3>
+          {{totalUnpaid | currency:'EUR'}}</h3>
         <div class="flex flex-row justify-between text-black group-hover:text-gray-200 mt-2">
-          <p class="font-bold">Total Contactos</p>
+          <p class="font-bold">Total Importe Pendiente</p>
         </div>
       </div>
     </div>
 
-    <div class="border-gray-300 rounded-lg h-32 md:h-64">
 
-      <div class="flex flex-col  px-6 py-10 overflow-hidden bg-white bg-gradient-to-br rounded-xl shadow-lg ">
-        <mat-icon class="text-black scale-150">people</mat-icon>
-        <h3 class="text-4xl sm:text-5xl xl:text-6xl font-bold text-black mt-12 group-hover:text-gray-50">
-          {{contacts?.length}}</h3>
-        <div class="flex flex-row justify-between text-black group-hover:text-gray-200 mt-2">
-          <p class="font-bold">Total Contactos</p>
-        </div>
-      </div>
-
-    </div>
   </div>
 
 

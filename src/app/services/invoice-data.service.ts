@@ -57,4 +57,17 @@ export class InvoiceDataServiceService {
     return this.http.delete<any>(`${environment.baseUrl}invoices/delete/${this.user?.id}/${invoiceId}`);
   }
 
+
+  calculateConcept(concept: any): Observable<any> {
+    return this.http.post<any>(`${environment.baseUrl}invoices/calculate-concept/${this.user?.id}/`, concept);
+  }
+
+  calculateTotals(concepts: any): Observable<any> {
+    return this.http.post<any>(`${environment.baseUrl}invoices/calculate-totals/${this.user?.id}/`, concepts);
+  }
+
+  markAsPaidOrUnpaid(invoiceId: string): Observable<any> {
+    return this.http.patch<any>(`${environment.baseUrl}invoices/markaspaidorunpaid/${this.user?.id}/${invoiceId}`, null);
+  }
+
 }

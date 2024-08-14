@@ -8,6 +8,7 @@ import { AddNewInvoiceComponent } from './add-new-invoice/add-new-invoice.compon
 import { BudgetsComponent } from './budgets/budgets.component';
 import { AddNewBudgetComponent } from './add-new-budget/add-new-budget.component';
 import { MatIconModule } from '@angular/material/icon';
+import {MatMenu, MatMenuModule} from '@angular/material/menu';
 
 import {MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -30,7 +31,8 @@ import { PipesModule } from "../../../utils/pipes/pipes.module";
     MatSelectModule,
     MatFormFieldModule,
     SharedModule,
-    PipesModule
+    PipesModule,
+    MatMenuModule,
 ]
 })
 export class SalesModule { }

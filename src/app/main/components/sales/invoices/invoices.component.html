@@ -24,8 +24,8 @@
           class="flex flex-col px-6 py-8 space-y-3 lg:flex-row lg:items-center lg:justify-between lg:space-y-0 lg:space-x-4">
           <div class="flex items-center flex-1 space-x-4">
             <h5>
-              <span class="text-gray-500">Total de contactos</span>
-              <span class="dark:text-white pl-1">170</span>
+              <span class="text-gray-500">Total Facturas</span>
+              <span class="dark:text-white pl-1">{{invoices.length}}</span>
             </h5>
 
           </div>
@@ -54,7 +54,7 @@
                   <!-- <th scope="col" class="px-4 py-3">Tipo</th>
                           <th scope="col" class="px-4 py-3">Categoría</th> -->
                   <th scope="col" class="px-4 py-3"></th>
-                  <th scope="col" class="px-4 py-3"></th>
+
                 </tr>
               </thead>
               <tbody>
@@ -73,9 +73,9 @@
                     {{invoice?.documentNumber}}
                   </td>
                   <td class="px-4 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <div class="flex flex-col">
-                      <span>{{invoice?.contactDetails?.name}}</span>
-                      <span class="text-xs text-gray-500">{{invoice?.contactDetails?.email}}</span>
+                    <div class="flex flex-col ">
+                      <span class="flex items-center gap-2  "><mat-icon class="text-gray-400">person</mat-icon>{{invoice?.contactDetails?.name}}</span>
+                      <span class="text-xs text-gray-500 flex items-center gap-2 "><mat-icon class="text-gray-400">mail</mat-icon>{{invoice?.contactDetails?.email}}</span>
                     </div>
                   </td>
                   <td class="px-4 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -89,17 +89,54 @@
                     [ngClass]="invoice?.state === 'unpaid' ? 'bg-orange-100 text-yellow-800' : 'bg-green-100 text-green-800'"
                     class=" text-sm font-medium me-2 px-2.5 py-0.5 rounded">{{invoice?.state === 'unpaid' ? 'Pendiente' : 'Pagada'}}</span>
                   </td>
-                  <td class="px-4 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  <!-- <td class="px-4 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     <div class="flex gap-3">
                       <a [routerLink]="['/inicio/sales/invoices/add', invoice._id]" class="btn-class">
-                        <mat-icon [ngClass]="'text-primary-700 hover:text-gray-600 cursor-pointer'">edit</mat-icon>
+                        <mat-icon [ngClass]="'text-gray-500 hover:text-gray-600 cursor-pointer'">edit</mat-icon>
                       </a>
-                      <button (click)="deleteInvoice(invoice._id)">
-                        <mat-icon [ngClass]="'text-black hover:text-gray-600 cursor-pointer'">delete</mat-icon>
+
+                      <button (click)="confirmDeleteInvoice(invoice._id)">
+                        <mat-icon [ngClass]="'text-gray-500 hover:text-gray-600 cursor-pointer'">delete</mat-icon>
                       </button>
                     </div>
+                  </td> -->
+                  <td class="px-4 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <div class="flex gap-3">
+                      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                        <mat-icon>more_vert</mat-icon>
+                      </button>
+                      <mat-menu #menu="matMenu" class="mat-menu">
+                        <button mat-menu-item>
+                          <a [routerLink]="['/inicio/sales/invoices/add', invoice._id]" class="flex items-center">
+                          <mat-icon class="text-xl">edit</mat-icon>
+                          <span class="text-base">Editar Factura </span>
+                        </a>
+                        </button>
+                        <button (click)="confirmDeleteInvoice(invoice._id)" mat-menu-item >
+                          <mat-icon class="text-xl">delete</mat-icon>
+                          <span class="text-base">Eliminar factura</span>
+                        </button>
+                        <button (click)="marcarComoPagadaOImpagada(invoice._id)" mat-menu-item>
+                          <mat-icon class="text-xl">{{invoice.state === 'paid' ? 'money_off' : 'price_check'}}</mat-icon>
+                          <span class="text-base">Marcar como {{invoice.state === 'paid' ? 'no pagada' :'pagada'}}</span>
+                        </button>
+                      </mat-menu>
+                    </div>
                   </td>
+
                 </tr>
+              <div class="mt-5"></div>
+                <tr class=" border-b bg-black">
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td class="px-4 py-2 font-medium text-white whitespace-nowrap" >{{calculateAllInvoicesTotalWithTaxes(invoices).totalWithoutTaxes | currency:'EUR'}}</td>
+                  <td class="px-4 py-2 font-medium text-white whitespace-nowrap" >{{calculateAllInvoicesTotalWithTaxes(invoices).totalWithTaxes | currency:'EUR'}}</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+
               </tbody>
             </table>
           </div>
@@ -169,7 +206,8 @@
     </div>
 
   </section>
-  <pre>{{invoices[5] | json}}</pre>
+
+
 
 
 

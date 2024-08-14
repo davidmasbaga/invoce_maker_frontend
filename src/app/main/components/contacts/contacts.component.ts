@@ -38,8 +38,6 @@ setTimeout(() => {
   this.cdr.detectChanges();
 }, 1000);
 
-
-
       this.cdr.detectChanges();
     });
 
@@ -47,7 +45,7 @@ setTimeout(() => {
 
 
 
-  confirmDeleteContact(contact: any) {
+confirmDeleteContact(contact: any) {
 
 const userId = localStorage.getItem('userId');
 
@@ -77,7 +75,7 @@ if(userId) {
   }
 
 
-  deleteContact(contactId: string) {
+deleteContact(contactId: string) {
     this.contactDataService.deleteContact(contactId).pipe(
       take(1),
       takeUntil(this.destroy$))
@@ -90,7 +88,7 @@ if(userId) {
 
 
 
-  openDialog() {
+openDialog() {
     const data = {
       icon: 'error',
       color: '',

@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { MaterialModule } from './material/material.module';
+import {MatMenuModule} from '@angular/material/menu';
+
 import { RouterModule } from '@angular/router';
 import { CtaButtonComponent } from './ui-components/cta-button/cta-button.component';
 import { SpinnerComponent } from './spinner/spinner.component';
@@ -22,7 +24,8 @@ import { ButtonDirective } from './directives/button.directive';
   imports: [
     CommonModule,
     MaterialModule,
-    RouterModule
+    RouterModule,
+   
   ],
   exports: [
     NavbarComponent,
@@ -31,6 +34,7 @@ import { ButtonDirective } from './directives/button.directive';
     MaterialModule,
     SpinnerComponent,
     ButtonDirective
+
   ]
 
 })
